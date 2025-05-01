@@ -1,0 +1,81 @@
+﻿@using EventHubWebsite
+@using EventHubWebsite.Entities
+@using EventHubWebsite.Models
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer ViewLocalizer
+@model IEnumerable<Event>
+
+@{
+    ViewData["Title"] = "All Events";
+}
+
+@if (!Model.Any())
+{
+    <div class="container">
+        <p>There are no events found for this category.</p>
+    </div>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card border-primary h-100">
+                        <img src="@item.ImagePath" class="card-img-top" alt="@item.Name">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Name</h5>
+                            <p class="card-text">@item.Description</p>
+                            <button type="button" class="btn btn-primary see-more" data-id="@item.Id" data-bs-toggle="modal" data-bs-target="#eventModal">
+                                @ViewLocalizer["See More"]
+                            </button>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Added on @item.Added.ToString("MMMM dd, yyyy")</small>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Dynamic content will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@ViewLocalizer["Close"]</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.see-more').click(function () {
+                var eventId = $(this).data('id');
+                $.ajax({
+                    url: '@Url.Action("EventDetail", "Events")',
+                    data: { id: eventId },
+                    success: function (data) {
+                        $('#eventModal .modal-content').html(data);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('Error:', textStatus, errorThrown);
+                    }
+                });
+            });
+        });
+    </script>
+    }
+}

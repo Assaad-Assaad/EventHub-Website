@@ -1,0 +1,30 @@
+﻿@using System.Globalization
+@using EventHubWebsite
+@using EventHubWebsite.Data
+@using EventHubWebsite.Entities
+@using EventHubWebsite.Models
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer ViewLocalizer
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+
+ @if (User.IsInRole("Admin"))
+    {
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-dark" href="#" data-bs-toggle="dropdown">Admin</a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Event Categories</a></li>
+                <li><a class="dropdown-item" asp-controller="Events" asp-action="Index">Events</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" asp-controller="UserEvents" asp-action="Index">User to Event</a></li>
+            </ul>
+        </li>
+    }
+
+
+
+
+
+

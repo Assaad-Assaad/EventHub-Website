@@ -1,0 +1,111 @@
+﻿@using System.Globalization
+@using EventHubWebsite
+@using EventHubWebsite.Entities
+@using EventHubWebsite.Models
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer ViewLocalizer
+@model IEnumerable<EventHubWebsite.Entities.Category>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!--Hero Section-->
+<div class="hero section">
+
+    <img src="/images/event-hub.png" class="img-fluid" alt="Responsive image">
+    <div class="hero-heading">
+        <h2 class="hero-heading-text">@ViewLocalizer["Welcome to EventHubWebsite"]</h2>
+
+    </div>
+</div>
+
+<hr class="section-divider" />
+
+<!--Events Section-->
+<div id="Events" class="events section">
+    <h3 class="section-header"><i class="fas fa-laptop-code mr-2 text-info">@ViewLocalizer["Events"]</i></h3>
+
+    @{
+        var items = Model.ToList();
+    }
+
+    @for (int i = 0; i < items.Count; i += 4)
+    {
+        <div class="row mb-4">
+            @for (int j = i; j < i + 4 && j < items.Count; j++)
+            {
+                var item = items[j];
+                <div class="col-md-3">
+                    <div class="card border-primary mb-3">
+                        <img src="@item.ImagePath" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Name</h5>
+                            <p class="card-text">@item.Description</p>
+                            <a asp-controller="Events" asp-action="AllEvents" asp-route-categoryId="@item.Id" class="btn btn-primary">@ViewLocalizer["Explore more Events"]</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+</div>
+
+<div class="modal fade" id="eventDetailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+</div>
+<hr class="section-divider" />
+
+<!--Contact Us Section-->
+
+<div id="ContactUs" class="contact-us section">
+    <h3 class="col-md-5 section-header"><i class="fas fa-phone-alt mr-2 text-info"></i>@ViewLocalizer["Contact Us"]</h3>
+    <div class="col-md-5">
+        @* @ViewLocalizer["For any question feel free to contact us"] *@
+        For any question feel free to contact us
+
+    </div>
+    <div class="mt-3">
+        <div class="col-md-8">
+            <form>
+                <input type="hidden" />
+                <div class="form-group">
+                    <label for="Name" class="control-label">@ViewLocalizer["Name"] </label>
+                    <input id="Name" class="form-control" />
+
+                </div>
+                <div class="form-group">
+                    <label for="Email" class="control-label">@ViewLocalizer["Email: "] </label>
+                    <input id="Email" class="form-control" />
+
+                </div>
+                <div class="form-group">
+                    <label for="Subject" class="control-label">@ViewLocalizer["Subject: "] </label>
+                    <input id="Subject" class="form-control" />
+
+                </div>
+                <div class="form-group">
+                    <label for="MessageBody" class="control-label">@ViewLocalizer["Message"] </label>
+                    <textarea id="Messagebody" cols="30" rows="10" class="form-control"></textarea>
+
+                </div>
+                <div class="form-group d-flex">
+                    <input type="button" value="Send Email" class="btn btn-outline-info ml-auto" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<hr class="section-divider" />
+
+<!--About Us Section-->
+
+<div id="AboutUs" class="about-us section">
+    <h3 class="col-md-5 section-header"><i class="fas fa-chalkboard-teacher mr-2 text-info"></i>@ViewLocalizer["About Us"]</h3>
+    <div class="mt-3 mb-5">
+        <div class="col-md-5">
+            <p>
+                @ViewLocalizer["EventHubWebsite is a platform where you can find all the events around the world"]
+                
+        </div>
+    </div>
+</div>

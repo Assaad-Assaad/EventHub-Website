@@ -1,0 +1,67 @@
+﻿@using System.Globalization
+@using EventHubWebsite
+@using EventHubWebsite.Entities
+@using EventHubWebsite.Models
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer ViewLocalizer
+@model IEnumerable<EventHubWebsite.Entities.Category>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>@ViewLocalizer["All Categories"]</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">@ViewLocalizer["Create New"]</a>
+</p>
+
+<div class="col-4 p-0 justify-content-end mt-1">
+    <form asp-controller="Categories" asp-action="Index">
+        <span class="btn-group">
+            <input class="form-control" type="text" name="SearchString" placeholder=@ViewLocalizer["Search"] />
+            <input class="p-1 m1-2 btn btn-sm btn-danger" type="submit" value=@ViewLocalizer["Search"] />
+                   
+        </span>
+
+    </form>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImagePath)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImagePath)
+            </td>
+            <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="text-info mr-2"><i class="fas fa-edit"></i></a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="text-dark mr-2"><i class="fas fa-table"></i></a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="text-danger mr-2"><i class="fas fa-trash"></i></a>
+                
+                <a asp-controller="Events" asp-action="Index" asp-route-categoryId="@item.Id" class="btn btn-outline-secondary btn-sm">@ViewLocalizer["Update Item"]</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

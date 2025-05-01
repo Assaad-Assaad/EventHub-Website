@@ -1,0 +1,53 @@
+﻿@using System.Globalization
+@using EventHubWebsite
+@using EventHubWebsite.Entities
+@using EventHubWebsite.Models
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer ViewLocalizer
+@model IEnumerable<EventHubWebsite.Entities.UserEvent>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>@ViewLocalizer["Events to Users"]</h1>
+
+<p>
+    <a asp-action="Create"></a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.User.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Event)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Event.Name)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="text-info mr-2"><i class="fas fa-edit"></i></a>
+                <a asp-action="Details" asp-route-id="@item.Id" class="text-dark mr-2"><i class="fas fa-table"></i></a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="text-danger mr-2"><i class="fas fa-trash"></i></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
